@@ -1,8 +1,12 @@
+#!/usr/bin/env ruby
+
 sites_to_check = [
   # Display   Host Address
   ['IT34',   'it34.natrona.net'],
   ['Google', 'www.google.com'],
-  ['WHF',    '10.32.10.4']
+  ['WHF',    '10.32.10.4'],
+  ['Home Server (Internal)', '10.0.1.200'],
+  ['Home Server (External)', 'home.batcavern.com']
 ]
 
 def site_up? addr
