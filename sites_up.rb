@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -I.
 
-require "utils/colors"
-require "utils/network"
+require "framework/colors"
+require "framework/network"
 
 sites_to_check = [
   # Display   Host Address
