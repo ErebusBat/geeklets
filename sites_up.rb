@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -I.
+
+require "utils/colors"
 
 sites_to_check = [
   # Display   Host Address
@@ -18,9 +20,17 @@ end
 
 def get_site_string site_info
   is_up = site_up? site_info[1]
-  up = ' UP '
-  up = 'DOWN' unless is_up
-  "[#{up}] #{site_info[0]}"
+  status = " UP "
+  status = "DOWN" unless is_up
+
+  # color it
+  if is_up
+    status = "#{Colors.green}#{status}#{Colors.normal}"
+  else
+    status = "#{Colors.red}#{status}#{Colors.normal}"
+  end
+
+  "[#{status}] #{site_info[0]}"
 end
 
 sites_to_check.each do |site_info|
