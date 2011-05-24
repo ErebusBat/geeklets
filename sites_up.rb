@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby -I.
 
 require "utils/colors"
+require "utils/network"
 
 sites_to_check = [
   # Display   Host Address
@@ -33,6 +34,11 @@ def get_site_string site_info
   "[#{status}] #{site_info[0]}"
 end
 
+# Do default gateway before other sites
+gw = Network.default_gateway
+puts get_site_string ["GW: #{gw}", gw]
+
+# now other sites
 sites_to_check.each do |site_info|
   puts get_site_string site_info
 end
