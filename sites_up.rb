@@ -29,7 +29,7 @@ end
 
 # Do default gateway before other sites
 gw = Network.default_gateway
-puts get_site_string ["GW: #{gw}", gw]
+sites_to_check.unshift ["GW: #{gw}", gw]
 
 # now other sites
 sites_to_check.each do |site_info|
