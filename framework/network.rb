@@ -17,6 +17,7 @@ class Network
 
   def self.site_up? host, timeout = 1000
     ping = self.ping host
-    return true unless ping < 0 || ping > timeout
+    return false if ping.nil?
+    return true unless ( ping < 0 || ping > timeout )
   end
 end
