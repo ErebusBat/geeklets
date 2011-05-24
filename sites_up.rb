@@ -3,14 +3,23 @@
 require "framework/colors"
 require "framework/network"
 
-sites_to_check = [
-  # Display   Host Address
-  ['IT34',   'it34.natrona.net'],
-  ['Google', 'www.google.com'],
-  ['WHF',    '10.32.10.4'],
-  ['Home Server (Internal)', '10.0.1.200'],
-  ['Home Server (External)', 'home.batcavern.com']
-]
+def get_sites_to_check
+  sites_to_check = []
+
+  # Always do GW, first
+  gw = Network.default_gateway
+  sites_to_check << ["GW: #{gw}", gw]
+
+  [
+    # Display   Host Address
+    ['IT34',   'it34.natrona.net'],
+    ['Google', 'www.google.com'],
+    ['WHF',    '10.32.10.4'],
+    ['Home Server (Internal)', '10.0.1.200'],
+    ['Home Server (External)', 'home.batcavern.com']
+  ].each {|s| sites_to_check << s}
+  sites_to_check
+end
 
 def get_site_string site_info
   is_up = Network.site_up? site_info[1]
@@ -27,11 +36,13 @@ def get_site_string site_info
   "[#{status}] #{site_info[0]}"
 end
 
+#Get sites
+
+
 # Do default gateway before other sites
-gw = Network.default_gateway
-sites_to_check.unshift ["GW: #{gw}", gw]
 
 # now other sites
-sites_to_check.each do |site_info|
+sites = get_sites_to_check
+sites.each do |site_info|
   puts get_site_string site_info
 end
