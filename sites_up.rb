@@ -12,15 +12,8 @@ sites_to_check = [
   ['Home Server (External)', 'home.batcavern.com']
 ]
 
-def site_up? addr
-  ping = `ping -c 1 -t 1 #{addr} 2>&1`
-  return false if ping =~ /Unknown host$/i
-  return false if ping =~ /100(?:\.0)?% packet loss/i
-  return true  if ping =~ /0(?:\.0)?% packet loss/i
-end
-
 def get_site_string site_info
-  is_up = site_up? site_info[1]
+  is_up = Network.site_up? site_info[1]
   status = " UP "
   status = "DOWN" unless is_up
 
