@@ -17,7 +17,12 @@ class Network
     ifconfig = %x[ifconfig]
     m = ifconfig.scan rx
     m.each { |iif| interfaces << iif[0] }
-    interfaces
+
+    info = []
+    interfaces.each do |iif|
+      info << Network.interface_info(iif)
+    end
+    info
   end
 
   def self.ip_for_interface iif
@@ -26,6 +31,25 @@ class Network
     m = rx.match ifconfig
     return nil unless m
     m[1]
+  end
+
+  def self.interface_info interface
+    ip_rx     = /(?:inet)\s+([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/i
+    mac_rx    = /(?:ether|lladdr)\s+((?:[a-z0-9]{2}:?)+)/i
+    status_rx = /(?:status):\s+(\w+)/i
+    ifconfig  = %x[ifconfig #{interface}]
+
+    info = {
+      :name             => interface,
+      :hardware_address => nil,
+      :ip               => nil,
+      :status           => nil
+    }
+    ip_rx.match(ifconfig) { |m| info[:ip] = m[1] }
+    mac_rx.match(ifconfig) { |m| info[:hardware_address] = m[1] }
+    status_rx.match(ifconfig) { |m| info[:status] = m[1] }
+
+    info
   end
 
   def self.default_gateway
