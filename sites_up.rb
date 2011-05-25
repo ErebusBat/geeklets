@@ -4,6 +4,11 @@ require "framework/colors"
 require "framework/network"
 
 def get_sites_to_check
+  # Network checks
+  on_whf     = Network.on_network '10.32.*.*'
+  on_natrona = Network.on_network '172.16.*.*'
+  on_home    = Network.on_network '10.0.1.*'
+
   sites_to_check = []
 
   # Always do GW, first
@@ -11,17 +16,17 @@ def get_sites_to_check
   sites_to_check << ["GW: #{gw}", gw]
 
   # Natrona County
-  if Network.on_network '172.16.*.*'
+  if on_natrona
     sites_to_check << ['IT34',   'it34.natrona.net']
   end
 
   # WHF
-  if Network.on_network '10.32.*.*'
+  if on_whf
     sites_to_check << ['WHF',    '10.32.10.4']
   end
 
   # Home Stuff
-  if Network.on_network '10.0.1.*'
+  if on_home
     sites_to_check << ['Home Server (Internal)', '10.0.1.200']
   else
     sites_to_check << ['Home Server (External)', 'home.batcavern.com']
