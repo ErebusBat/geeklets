@@ -1,4 +1,8 @@
 class Network
+  def self.external_ip
+    %x[curl -s www.icanhazip.com].strip
+  end
+
   def self.ips
     ips = []
     ifconfig = %x[ifconfig]

@@ -3,16 +3,19 @@
 require "framework/colors"
 require "framework/network"
 
+ignore_interfaces = ['lo0', 'fw', 'vmnet1', 'vmnet8']
+
 ips = []
-current_ips = Network.ips
-current_ips.each do |ip|
-  show_ip = true
-  #show_ip = false if Network.ip_matches_pattern ip,
-  ips << ip
+ips << ['world', Network.external_ip]
+Network.interface_list.each do |iif|
+  next if ignore_interfaces.include? iif
+  if_ip = Network.ip_for_interface iif
+  ips << [iif, if_ip] unless if_ip.to_s.empty?
 end
 
+
 # Print them
-puts "#{Colors.white}Current IPs#{Colors.normal}"
-ips.each do |ip|
-  puts "  #{ip}"
+#puts "#{Colors.white}Current IPs#{Colors.normal}"
+ips.each do |iif, ip|
+  puts "#{'%5s' % iif}: #{ip}"
 end
