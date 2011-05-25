@@ -10,13 +10,27 @@ def get_sites_to_check
   gw = Network.default_gateway
   sites_to_check << ["GW: #{gw}", gw]
 
+  # Natrona County
+  if Network.on_network '172.16.*.*'
+    sites_to_check << ['IT34',   'it34.natrona.net']
+  end
+
+  # WHF
+  if Network.on_network '10.32.*.*'
+    sites_to_check << ['WHF',    '10.32.10.4']
+  end
+
+  # Home Stuff
+  if Network.on_network '10.0.1.*'
+    sites_to_check << ['Home Server (Internal)', '10.0.1.200']
+  else
+    sites_to_check << ['Home Server (External)', 'home.batcavern.com']
+  end
+
+  # Always
   [
     # Display   Host Address
-    ['IT34',   'it34.natrona.net'],
-    ['Google', 'www.google.com'],
-    ['WHF',    '10.32.10.4'],
-    ['Home Server (Internal)', '10.0.1.200'],
-    ['Home Server (External)', 'home.batcavern.com']
+    ['Google', 'www.google.com']
   ].each {|s| sites_to_check << s}
   sites_to_check
 end
