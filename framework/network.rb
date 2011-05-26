@@ -45,9 +45,14 @@ class Network
       :ip               => nil,
       :status           => nil
     }
-    ip_rx.match(ifconfig) { |m| info[:ip] = m[1] }
-    mac_rx.match(ifconfig) { |m| info[:hardware_address] = m[1] }
-    status_rx.match(ifconfig) { |m| info[:status] = m[1] }
+    m = ip_rx.match(ifconfig)
+    info[:ip] = m[1] if m
+
+    m = mac_rx.match(ifconfig)
+    info[:hardware_address] = m[1] if m
+
+    m = status_rx.match(ifconfig)
+    info[:status] = m[1] if m
 
     info
   end
