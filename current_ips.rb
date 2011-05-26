@@ -31,17 +31,22 @@ def get_blank_cache_entry
   }
 end
 
-def get_ips cache_entry
-  ips = []
+def get_external_ip cache_entry
+  raise "I need a valid cache entry!" if cache_entry.nil?
 
   update_external_ip = false
   update_external_ip = true if cache_entry[:external_ip].to_s.empty?
   update_external_ip = true if (Time.now - cache_entry[:last_updated] > 60.minutes)
-  cache_entry[:external_ip] = Network.external_ip if update_external_ip
-  puts "NEW EXTERNAL IP" if update_external_ip
-  eip = "#{cache_entry[:external_ip]} a=#{(Time.now - cache_entry[:last_updated]).ceil}"
+  if update_external_ip
+    cache_entry[:external_ip] = Network.external_ip
+    cache_entry[:last_updated] = Time.now
+  end
+  "#{cache_entry[:external_ip]} a=#{(Time.now - cache_entry[:last_updated]).ceil}"
+end
 
-  ips << ['world',  eip]
+def get_ips cache_entry
+  ips = []
+  ips << ['world', get_external_ip(cache_entry)]
   Network.interface_list.each do |iif|
     next if iif[:status] != :active || iif[:ip].to_s.empty? ||
     ips << [iif[:name], iif[:ip]]
