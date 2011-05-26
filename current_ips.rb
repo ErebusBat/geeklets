@@ -19,8 +19,9 @@ def load_cache
 end
 
 def get_key_for_ip ip
+  return 'no_ip' if ip.to_s.empty?
   no_dots = ip.gsub '.', '_'
-  "gw#{no_dots}"
+  "gw#{no_dots}".to_sym
 end
 
 def get_blank_cache_entry
