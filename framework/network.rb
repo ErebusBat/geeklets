@@ -43,7 +43,7 @@ class Network
       :name             => interface,
       :hardware_address => nil,
       :ip               => nil,
-      :status           => nil
+      :status           => :inactive
     }
     m = ip_rx.match(ifconfig)
     info[:ip] = m[1] if m
@@ -52,7 +52,9 @@ class Network
     info[:hardware_address] = m[1] if m
 
     m = status_rx.match(ifconfig)
-    info[:status] = m[1] if m
+    if m
+      info[:status] = :active if m[1].downcase.strip == 'active'
+    end
 
     info
   end
