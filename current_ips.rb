@@ -41,12 +41,18 @@ def get_external_ip cache_entry
     cache_entry[:external_ip] = Network.external_ip
     cache_entry[:last_updated] = Time.now
   end
+  return '' if cache_entry[:external_ip].to_s.empty?
   "#{cache_entry[:external_ip]} a=#{(Time.now - cache_entry[:last_updated]).ceil}"
 end
 
 def get_ips cache_entry
   ips = []
-  ips << ['world', get_external_ip(cache_entry)]
+  external_ip = get_external_ip cache_entry
+  if external_ip.empty?
+    ips << ['No Active Interfaces', '']
+  else
+    ips << ['world', external_ip] 
+  end
   Network.interface_list.each do |iif|
     next if iif[:status] != :active || iif[:ip].to_s.empty? ||
     ips << [iif[:name], iif[:ip]]
