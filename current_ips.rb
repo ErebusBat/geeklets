@@ -54,6 +54,7 @@ def get_ips cache_entry
     ips << ['world', external_ip] 
   end
   Network.interface_list.each do |iif|
+    iif[:status] = :active if iif[:name] =~ /^(utun|ppp)/i
     next if iif[:status] != :active || iif[:ip].to_s.empty? ||
     ips << [iif[:name], iif[:ip]]
   end
