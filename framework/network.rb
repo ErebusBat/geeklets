@@ -73,6 +73,7 @@ class Network
     return nil if ping =~ /Unknown host$/i
     return -1 if ping =~ /100(?:\.0)?% packet loss/i
     m = /time=(\d+(?:\.\d+)) ms/i.match ping
+    return nil unless m
     m[1].to_f
   end
 
