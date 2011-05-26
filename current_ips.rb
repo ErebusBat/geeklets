@@ -14,5 +14,5 @@ end
 # Print them
 #puts "#{Colors.white}Current IPs#{Colors.normal}"
 ips.each do |iif, ip|
-  puts "#{'%5s' % iif}: #{ip}"
+  puts "#{'%6s' % iif}: #{ip}"
 end
