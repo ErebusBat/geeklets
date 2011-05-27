@@ -1,17 +1,33 @@
 #!/usr/bin/env ruby -I.
 require "rubygems"
 require "yahoo-weather"
+require "date"
 
 def get_weather woeid
   yahoo = YahooWeather::Client.new
   yahoo.lookup_by_woeid woeid
 end
 
-def get_img_url code
+def get_img_url code, big = true, day = nil
   #See http://developer.yahoo.com/weather/ for explanation of codes
   code = code.to_i
   raise "Code (#{code}) does not appear to be a valid yahoo weather code!" unless (code >= 0 && code <=47) || code==3200
-  "http://l.yimg.com/a/i/us/we/52/#{code}.gif"
+  url = ""
+  if big
+    if day = nil?
+      if DateTime.now.hour >= 18
+        day_or_night = 'n'
+      else
+        day_or_night = 'd'
+      end
+    else
+      day_or_night = day ? 'd' : 'n'
+    end
+    url = "http://l.yimg.com/a/i/us/nws/weather/gr/#{code}#{day_or_night}.png"
+  else
+    url = "http://l.yimg.com/a/i/us/we/52/#{code}.gif"
+  end
+  url
 end
 
 def download_weather_image code, store_at="/tmp/weather.gif"
