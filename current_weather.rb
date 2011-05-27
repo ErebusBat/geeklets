@@ -33,8 +33,8 @@ end
 
 output = <<END
 #{weather.title}
-#{temp} #{wind}
-#{forecasts.join "\n"}
+\t\t#{temp} #{wind}
+\t\t#{forecasts.join "\n\t\t"}
 END
 download_weather_image weather.condition.code
 
