@@ -26,10 +26,15 @@ weather = get_weather woeid
 temp = "#{weather.condition.text}, #{weather.condition.temp}°F"
 wind = "Wind: #{weather.wind.speed}mph #{weather.wind.direction}°, Chill:#{weather.wind.chill}°F"
 wind = "Calm" if weather.wind.speed <= 1
+forecasts = []
+weather.forecasts.each do |f|
+  forecasts << "#{f.day}: #{f.low}°-#{f.high}° #{f.text}"
+end
 
 output = <<END
 #{weather.title}
 #{temp} #{wind}
+#{forecasts.join "\n"}
 END
 download_weather_image weather.condition.code
 
