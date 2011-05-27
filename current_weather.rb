@@ -7,6 +7,19 @@ def get_weather woeid
   yahoo.lookup_by_woeid woeid
 end
 
+def get_img_url code
+  #See http://developer.yahoo.com/weather/ for explanation of codes
+  code = code.to_i
+  raise "Code (#{code}) does not appear to be a valid yahoo weather code!" unless (code >= 0 && code <=47) || code==3200
+  "http://l.yimg.com/a/i/us/we/52/#{code}.gif"
+end
+
+def download_weather_image code, store_at="/tmp/weather.gif"
+  url = get_img_url code
+  File.delete store_at if File.exists? store_at
+  %x[wget -q #{url} -O #{store_at}]
+end
+
 woeid = 12793608 # 12793608=Casper,WY
 weather = get_weather woeid
 
@@ -17,7 +30,7 @@ wind = "Calm" if weather.wind.speed <= 1
 output = <<END
 #{weather.title}
 #{temp} #{wind}
-#{weather.image.url}
 END
+download_weather_image weather.condition.code
 
 puts output.strip
