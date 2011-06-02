@@ -39,46 +39,46 @@ end
 def deg_to_dir deg
   # used logic from http://www.csgnetwork.com/degrees2direct.html
   d = deg.to_f
-  dir = "#{d}°"
   case d
-    when d >=  0    && d <=  11.25,
-         d > 348.75 && d <= 360
-      dir = "N"
-    when d >  11.25 && d <=  33.75
-      dir = "NNE"
-    when d >  33.75 && d <=  56.25
-      dir = "NE"
+    when (0..11.25),
+         (348.75..360)
+			"N"
+    when (11.25..33.75)
+			"NNE"
+    when (33.75..56.25)
+			"NE"
 
-    when d >  56.25 && d <=  78.75
-      dir = "ENE"
-    when d >  78.75 && d <= 101.25
-      dir = "E"
-    when d > 101.25 && d <= 123.75
-      dir = "ESE"
+    when (56.25..78.75)
+			"ENE"
+    when (78.75..101.25)
+			"E"
+    when (101.25..123.75)
+			"ESE"
 
-    when d > 123.75 && d <= 146.25
-      dir = "SE"
-    when d > 146.25 && d <= 168.75
-      dir = "SSE"
-    when d > 168.75 && d <= 191.25
-      dir = "S"
-    when d > 191.25 && d <= 213.75
-      dir = "SSW"
-    when d > 213.75 && d <= 236.25
-      dir = "SW"
+    when (123.75..146.25)
+			"SE"
+    when (146.25..168.75)
+			"SSE"
+    when (168.75..191.25)
+			"S"
+    when (191.25..213.75)
+			"SSW"
+    when (213.75..236.25)
+			"SW"
 
-    when d > 236.25 && d <= 258.75
-      dir = "WSW"
-    when d > 258.75 && d <= 281.25
-      dir = "W"
-    when d > 281.25 && d <= 303.75
-      dir = "WNW"
-    when d > 303.75 && d <= 326.25
-      dir = "NW"
-    when d > 326.25 && d <= 348.75
-      dir = "NNW"
+    when (236.25..258.75)
+			"WSW"
+    when (258.75..281.25)
+			"W"
+    when (281.25..303.75)
+			"WNW"
+    when (303.75..326.25)
+			"NW"
+    when (326.25..348.75)
+			"NNW"
+    else
+      "#{d}°"
   end
-  dir
 end
 
 woeid = 12793608 # 12793608=Casper,WY
