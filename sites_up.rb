@@ -22,7 +22,9 @@ def get_sites_to_check
 
   # WHF
   if on_whf
-    sites_to_check << ['WHF',    '10.32.10.4']
+    sites_to_check << ['WHF AD',    '10.32.10.2']
+    sites_to_check << ['WHF DB',    '10.32.10.4']
+    sites_to_check << ['TuxBox',    '10.32.10.47']
   end
 
   # Home Stuff
