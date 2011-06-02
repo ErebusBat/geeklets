@@ -40,17 +40,17 @@ def deg_to_dir deg
   # used logic from http://www.csgnetwork.com/degrees2direct.html
   d = deg.to_f
   case d
-    when (0..11.25),
+    when (  0   .. 11.25),
          (348.75..360)
 			"N"
-    when (11.25..33.75)
+    when ( 11.25.. 33.75)
 			"NNE"
-    when (33.75..56.25)
+    when ( 33.75.. 56.25)
 			"NE"
 
-    when (56.25..78.75)
+    when ( 56.25.. 78.75)
 			"ENE"
-    when (78.75..101.25)
+    when ( 78.75..101.25)
 			"E"
     when (101.25..123.75)
 			"ESE"
