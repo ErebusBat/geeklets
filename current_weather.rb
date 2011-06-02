@@ -85,7 +85,7 @@ woeid = 12793608 # 12793608=Casper,WY
 weather = get_weather woeid
 
 temp = "#{weather.condition.text}, #{weather.condition.temp}°F"
-wind = "Wind: #{weather.wind.speed}mph #{deg_to_dir weather.wind.direction}, Chill:#{weather.wind.chill}°F"
+wind = "Wind: #{deg_to_dir weather.wind.direction} #{weather.wind.speed}mph, Chill:#{weather.wind.chill}°F"
 wind = "Calm" if weather.wind.speed <= 1
 forecasts = []
 weather.forecasts.each do |f|
