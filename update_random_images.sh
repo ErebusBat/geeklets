@@ -8,8 +8,8 @@ function cptmp() {
 }
 
 IMG_FINDER="$PWD/tools/random_iphoto_pic.sh"
-DEMITRI=`$IMG_FINDER Demitri`
-LINUX=`$IMG_FINDER Linux`
 
-cptmp demitri "$DEMITRI"
-cptmp linux "$LINUX"
+# Notice the Quote/Backtick
+# Pass in the name of the iPhoto Album to use to select from
+cptmp demitri "`$IMG_FINDER Demitri`"
+cptmp linux "`$IMG_FINDER Linux`"
