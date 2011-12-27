@@ -13,3 +13,4 @@ IMG_FINDER="$PWD/tools/random_iphoto_pic.sh"
 # Pass in the name of the iPhoto Album to use to select from
 cptmp demitri "`$IMG_FINDER Demitri`"
 cptmp linux "`$IMG_FINDER Linux`"
+cptmp photostream "`$IMG_FINDER 'Dec 2011 Photo Stream'`"
