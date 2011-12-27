@@ -6,7 +6,7 @@ require "framework/network"
 def get_sites_to_check
   # Network checks
   on_whf     = Network.on_network '10.32.*.*'
-  on_whf     = Network.on_network '192.168.1.*'
+  #on_whf     = Network.on_network '192.168.1.*'
   on_home    = Network.on_network '10.0.1.*'
 
   sites_to_check = []
