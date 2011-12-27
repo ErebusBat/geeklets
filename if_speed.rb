@@ -60,5 +60,7 @@ kbin= rate_in / 1024.0
 kbout= rate_out / 1024.0
 
 # print the results
+puts "      #{iface} "
+puts "================"
 puts " In:%7.2f KB/s" % kbin
 puts "Out:%7.2f KB/s" % kbout
