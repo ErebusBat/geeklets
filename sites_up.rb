@@ -27,15 +27,15 @@ def get_sites_to_check
     sites_to_check << ['Home Server (Internal)', '10.0.1.20']
     sites_to_check << ['Media Server',           '10.0.1.40']
   else
-    sites_to_check << ['Home Server (External)', 'home.batcavern.com']
+    sites_to_check << [nil, 'home.batcavern.com']
   end
 
   # Always
   [
     # Display   Host Address
-    ['Google',                     'www.google.com'],
-    ['www.WyomingHealthFairs.com', 'www.WyomingHealthFairs.com'],
-    ['WHF IDC4',                   '66.119.50.138']
+    ['Google',   'www.google.com'],
+    [nil,        'www.WyomingHealthFairs.com'],
+    ['WHF IDC4', '66.119.50.138']
   ].each {|s| sites_to_check << s}
   sites_to_check
 end
