@@ -69,7 +69,7 @@ class Network
 
   def self.ping host
     return nil if host.to_s.empty?
-    ping = `ping -c 1 -t 1 #{host} 2>&1`
+    ping = `ping -c 1 -t 2 #{host} 2>&1`
     return nil if ping =~ /Unknown host$/i
     return -1 if ping =~ /100(?:\.0)?% packet loss/i
     m = /time=(\d+(?:\.\d+)) ms/i.match ping
