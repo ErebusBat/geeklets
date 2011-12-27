@@ -24,7 +24,8 @@ def get_sites_to_check
 
   # Home Stuff
   if on_home
-    sites_to_check << ['Home Server (Internal)', '10.0.1.200']
+    sites_to_check << ['Home Server (Internal)', '10.0.1.20']
+    sites_to_check << ['Media Server',           '10.0.1.40']
   else
     sites_to_check << ['Home Server (External)', 'home.batcavern.com']
   end
@@ -32,7 +33,9 @@ def get_sites_to_check
   # Always
   [
     # Display   Host Address
-    ['Google', 'www.google.com']
+    ['Google',                     'www.google.com'],
+    ['www.WyomingHealthFairs.com', 'www.WyomingHealthFairs.com'],
+    ['WHF IDC4',                   '66.119.50.138']
   ].each {|s| sites_to_check << s}
   sites_to_check
 end
@@ -52,12 +55,7 @@ def get_site_string site_info
   "[#{status}] #{site_info[0]}"
 end
 
-#Get sites
-
-
-# Do default gateway before other sites
-
-# now other sites
+#Output
 sites = get_sites_to_check
 sites.each do |site_info|
   puts get_site_string site_info
