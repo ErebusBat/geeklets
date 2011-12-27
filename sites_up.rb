@@ -52,6 +52,7 @@ def get_site_string site_info
     status = "#{Colors.red}#{status}#{Colors.normal}"
   end
 
+  site_info[0] = site_info[1] unless site_info[0]
   "[#{status}] #{site_info[0]}"
 end
 
