@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby -I.
-
+$:.unshift File.dirname(__FILE__)
 require "framework/colors"
 require "framework/network"
 
