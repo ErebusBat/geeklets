@@ -6,7 +6,6 @@ require "framework/network"
 def get_sites_to_check
   # Network checks
   on_whf     = Network.on_network '10.32.*.*'
-  #on_whf     = Network.on_network '192.168.1.*'
   on_home    = Network.on_network '10.0.1.*'
 
   sites_to_check = []
@@ -17,9 +16,10 @@ def get_sites_to_check
 
   # WHF
   if on_whf
-    sites_to_check << ['WHF AD (.2)', '10.32.10.2']
-    sites_to_check << ['WHF DB (.4)', '10.32.10.4']
-    sites_to_check << ['TuxBox',      '10.32.10.47']
+    sites_to_check << ['WHF (.2) AD',       '10.32.10.2']
+    sites_to_check << ['WHF (.3) SQL 2008', '10.32.10.3']
+    sites_to_check << ['WHF (.4) SQL 2000', '10.32.10.4']
+    sites_to_check << ['TuxBox',            '10.32.10.47']
   end
 
   # Home Stuff
@@ -33,9 +33,9 @@ def get_sites_to_check
   # Always
   [
     # Display   Host Address
-    ['Google',   'www.google.com'],
-    [nil,        'www.WyomingHealthFairs.com'],
-    ['WHF IDC4', '66.119.50.138']
+    ['Google',          'www.google.com'],
+    [nil,               'www.WyomingHealthFairs.com'],
+    ['WHF IDC4 Router', '66.119.50.138']
   ].each {|s| sites_to_check << s}
   sites_to_check
 end
