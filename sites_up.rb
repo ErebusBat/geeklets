@@ -5,7 +5,7 @@ require "framework/network"
 
 def get_sites_to_check
   # Network checks
-  on_whf     = Network.on_network '10.32.*.*'
+  on_whf     = Network.on_network '192.168.85.*'
   on_home    = Network.on_network '10.0.1.*'
 
   sites_to_check = []
@@ -16,10 +16,10 @@ def get_sites_to_check
 
   # WHF
   if on_whf
-    sites_to_check << ['WHF (.2) AD',       '10.32.10.2']
-    sites_to_check << ['WHF (.3) SQL 2008', '10.32.10.3']
-    sites_to_check << ['WHF (.4) SQL 2000', '10.32.10.4']
-    sites_to_check << ['TuxBox',            '10.32.10.47']
+    sites_to_check << ['WHF (.17) AD',       '192.168.85.17']
+    sites_to_check << ['WHF (.18) SQL 2008', '192.168.85.18']
+    sites_to_check << ['WHF (.19) TuxBox',   '192.168.85.19']
+    sites_to_check << ['WHF (.20) SQL 2000', '192.168.85.20']
   end
 
   # Home Stuff
