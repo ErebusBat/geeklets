@@ -33,7 +33,8 @@ def get_sites_to_check
   # Always
   [
     # Display   Host Address
-    ['Google',          'www.google.com'],
+    #['Google',          'www.google.com'],
+    ['Google (dns)',    '8.8.8.8'],
     [nil,               'www.WyomingHealthFairs.com'],
     ['WHF IDC4 Router', '66.119.50.138']
   ].each {|s| sites_to_check << s}
