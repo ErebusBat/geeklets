@@ -16,8 +16,8 @@ def get_sites_to_check
 
   # WHF
   if on_whf
-    sites_to_check << ['GW: cpr-cbc-ws2-rtr', '66.62.70.33']
     sites_to_check << ['GW: cpr-core-cbc',    '10.48.1.65']
+    sites_to_check << ['GW: cpr-cbc-ws2-rtr', '66.62.70.33']
     sites_to_check << ['WHF (.17) AD',        '192.168.85.17']
     sites_to_check << ['WHF (.18) SQL 2008',  '192.168.85.18']
     sites_to_check << ['WHF (.19) TuxBox',    '192.168.85.19']
@@ -39,7 +39,7 @@ def get_sites_to_check
     #['Google',          'www.google.com'],
     ['Google (dns)',    '8.8.8.8'],
     [nil,               'www.WyomingHealthFairs.com'],
-    ['WHF IDC4 Router', '66.119.50.138']
+    #['WHF IDC4 Router', '66.119.50.138']
   ].each {|s| sites_to_check << s}
   sites_to_check
 end
