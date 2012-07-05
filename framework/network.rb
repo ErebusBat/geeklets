@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 class Network
   def self.external_ip
     %x[curl -s www.icanhazip.com].strip
@@ -104,5 +105,18 @@ class Network
     rx = Regexp.new rx_str
     return true if rx.match ip
     false
+  end
+end
+
+if $0 == __FILE__
+  ifs = Network.interface_list
+  puts %Q{
+  Default Gateway: #{Network.default_gateway}
+  Interfaces (#{ifs.size}):}
+  ifs.each do |iff|
+    puts "    #{iff[:name]}"
+    puts "         MAC: #{iff[:hardware_address]}"
+    puts "          IP: #{iff[:ip]}"
+    puts "      STATUS: #{iff[:status]}"
   end
 end
