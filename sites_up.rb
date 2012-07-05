@@ -22,7 +22,7 @@ def get_sites_to_check
     sites_to_check << ['WHF (.18) SQL 2008',  '192.168.85.18']
     sites_to_check << ['WHF (.19) TuxBox',    '192.168.85.19']
     sites_to_check << ['WHF (.20) SQL 2000',  '192.168.85.20']
-    sites_to_check << ['Sherlock',            '192.168.85.22']
+    sites_to_check << ['WHF (.22) Sherlock',  '192.168.85.22']
   end
 
   # Home Stuff
