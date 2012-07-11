@@ -7,6 +7,7 @@ def get_sites_to_check
   # Network checks
   on_whf     = Network.on_network '192.168.85.*'
   on_home    = Network.on_network '10.0.1.*'
+  on_home    = on_home || Network.on_network('10.8.0.*')
 
   sites_to_check = []
 
