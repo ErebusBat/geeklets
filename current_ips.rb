@@ -56,7 +56,8 @@ def get_ips cache_entry
   end
   Network.interface_list.each do |iif|
     iif[:status] = :active if iif[:name] =~ /^(utun|ppp)/i
-    next if iif[:status] != :active || iif[:ip].to_s.empty? ||
+    next if iif[:status] != :active || iif[:ip].to_s.empty?
+    next if iif[:name] =~ /(?:lo\d+|vmnet\d+)/i # Ignored interfaces
     ips << [iif[:name], iif[:ip]]
   end
   ips
