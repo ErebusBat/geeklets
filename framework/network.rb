@@ -129,4 +129,11 @@ if $0 == __FILE__
   Network.ips.each do |ip|
     puts "    #{ip}"
   end
+
+  locations = %w[127.0.0.* 192.168.0.* 192.168.1.* 192.168.85.* 10.0.0.* 10.0.1.* 10.8.0.*]
+  puts %Q{
+  Location\n}
+  locations.each do |net|
+    puts "    %15s: #{Network.on_network net}" % net
+  end
 end
