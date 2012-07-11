@@ -55,7 +55,16 @@ class Network
     m = status_rx.match(ifconfig)
     if m
       info[:status] = :active if m[1].downcase.strip == 'active'
+    else
+      # I am guessing that there may be more adapaters like PPP/TUN so if they
+      # are on the list and have an IP then make 'em active
+    #elsif info[:name] =~ /^(u?tun|ppp)/i
+      # PPP/TUN adapters don't have status, they just come and go
+      # so if they are here then they are active
+      info[:status] = :active if info[:ip]
     end
+    # Make sure that we don't mark an interface without an IP active
+    info[:status] = :inactive if info[:ip].to_s.empty?
 
     info
   end
