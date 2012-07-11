@@ -16,13 +16,19 @@ def load_cache
   return {} unless File.exists? IP_CACHE_PATH
   # loads a cache file based on default GW, this minimizes the calls to .external_ip which hit an external server
   # if the cache exists, and is under an hour old then that is used for the external IP
-  YAML.load_file(IP_CACHE_PATH)
+  cache = YAML.load_file(IP_CACHE_PATH)
+  cache = {} unless cache
+  cache
 end
 
-def get_key_for_ip ip
-  return 'no_ip' if ip.to_s.empty?
-  no_dots = ip.gsub '.', '_'
-  "gw#{no_dots}".to_sym
+def get_key_for_ip ips=[]
+  return 'no_ip' if ips.nil? || ips.empty?
+  key = "gw"
+  ips.each{|sub_ip| key << "#{sub_ip}-"}
+  key = key.gsub '.', '_'
+
+  # Remove trailing -
+  key.chop
 end
 
 def get_blank_cache_entry
