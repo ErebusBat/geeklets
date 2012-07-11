@@ -5,11 +5,7 @@ class Network
   end
 
   def self.ips
-    ips = []
-    ifconfig = %x[ifconfig]
-    m = ifconfig.scan /^\s*inet\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/i
-    m.each { |ip| ips << ip[0] } if m
-    ips
+    interface_list.collect{ |iff| iff[:ip] }.reject{|ip| ip.to_s.empty? }
   end
 
   def self.interface_list
@@ -127,5 +123,10 @@ if $0 == __FILE__
     puts "         MAC: #{iff[:hardware_address]}"
     puts "          IP: #{iff[:ip]}"
     puts "      STATUS: #{iff[:status]}"
+  end
+
+  puts "\n\n  IPs:"
+  Network.ips.each do |ip|
+    puts "    #{ip}"
   end
 end
