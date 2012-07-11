@@ -54,13 +54,19 @@ end
 
 def get_ips cache_entry
   ips = []
+  interfaces = Network.interface_list
+
+  ## See if the interface count has changed, if it has, then throw away the cache
+  cache_entry[:external_ip] = '' if cache_entry[:if_count].to_s.empty? || cache_entry[:if_count].to_i != interfaces.size
+  cache_entry[:if_count] = interfaces.size  ## Save current list
+
   external_ip = get_external_ip cache_entry
   if external_ip.empty?
     ips << ['No Active Interfaces', '']
   else
     ips << ['world', external_ip] 
   end
-  Network.interface_list.each do |iif|
+  interfaces.each do |iif|
     iif[:status] = :active if iif[:name] =~ /^(utun|ppp)/i
     next if iif[:status] != :active || iif[:ip].to_s.empty?
     next if iif[:name] =~ /(?:lo\d+|vmnet\d+)/i # Ignored interfaces
