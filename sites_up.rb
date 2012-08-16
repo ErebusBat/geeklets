@@ -24,6 +24,7 @@ def get_sites_to_check
     sites_to_check << ['WHF (.19) TuxBox',    '192.168.85.19']
     sites_to_check << ['WHF (.20) SQL 2000',  '192.168.85.20']
     sites_to_check << ['WHF (.22) Sherlock',  '192.168.85.22']
+    sites_to_check << ['David VPN (.194)',    '192.168.85.194']
   end
 
   # Home Stuff
