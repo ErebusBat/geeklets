@@ -1,23 +1,28 @@
 #!/usr/bin/env ruby
 require 'ostruct'
-require 'pathname'
+require 'fileutils'
 require 'open-uri'
+require 'yaml'
 
 #┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
 # Support Functions
 #┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
-def absolute_path path, ref=nil
-  # Save current working dir
-  old_cwd = Dir.pwd
-  ref = old_cwd unless ref
+CONFIG_PATH=File.expand_path('~/.btc_charts.yml')
+def copy_example
+  puts "No config file exists... creating new one #{CONFIG_PATH}"
+  `cp #{File.expand_path('./btc_charts.example.yml')} #{CONFIG_PATH}`
+end
+def load_config
+  copy_example unless File.exists? CONFIG_PATH
+  File.open CONFIG_PATH, 'r' do |f|
+    return YAML::load(f.read)
+  end
+end
 
-  # Extract the full path, then restore CWD
-  pn = Pathname.new(path)
-  Dir.chdir ref
-  absolute_path = pn.realpath
-  Dir.chdir old_cwd
-
-  absolute_path
+def find_chart config, chart
+  return nil if config.nil? or chart.to_s.empty?
+  config[:charts].each { |c| return c if c[:chart] == chart }
+  return nil
 end
 
 def download_file uri, local_file
@@ -54,25 +59,23 @@ end
 #┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
 # Entry Point
 #┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+config = load_config
+charts = config[:charts]
 options = OpenStruct.new
 options.chart = ARGV[0].to_s.downcase
-options.base_dir = '/tmp'
+options.base_dir = config[:basedir]
+chart = find_chart config, options.chart
 
 # Charts are PNG image data, 940 x 348, 8-bit/color RGB, non-interlaced
-
-case options.chart
-  when '1d-1m'
-    options.web_url   = 'http://bitcoincharts.com/charts/mtgoxUSD#rg1zig1-minztgSzbgBza1gSMAzm1g60za2gSMAzm2g1440zxzvzl'
-    options.chart_url = 'http://bitcoincharts.com/charts/chart.png?width=940&m=mtgoxUSD&SubmitButton=Draw&r=1&i=1-min&c=0&s=&e=&Prev=&Next=&t=S&b=B&a1=SMA&m1=60&a2=SMA&m2=1440&x=1&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=1&p=0&'
-  when '1d-15m'
-    options.web_url   = 'http://bitcoincharts.com/charts/mtgoxUSD#rg1zig15-minztgSzbgBza1gSMAzm1g200za2gSMAzm2g50zxzl'
-    options.chart_url = 'http://bitcoincharts.com/charts/chart.png?width=940&m=mtgoxUSD&SubmitButton=Draw&r=1&i=15-min&c=0&s=&e=&Prev=&Next=&t=S&b=B&a1=SMA&m1=200&a2=SMA&m2=50&x=1&i1=&i2=&i3=&i4=&v=0&cv=0&ps=0&l=1&p=0&'
-  when '2m-1d'
-    options.web_url   = 'http://bitcoincharts.com/charts/mtgoxUSD#rg60zigDailyztgSzbgBza1gSMAzm1g20za2gSMAzm2g50zxzv'
-    options.chart_url = 'http://bitcoincharts.com/charts/chart.png?width=940&m=mtgoxUSD&SubmitButton=Draw&r=60&i=Daily&c=0&s=&e=&Prev=&Next=&t=S&b=B&a1=SMA&m1=20&a2=SMA&m2=50&x=1&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&'
-  else
-    $stderr.puts "***ERROR: specify chart type:\n   #{$0} 1d1m"
-    Kernel.exit 1
+if options.chart.empty? or chart.nil?
+  $stderr.puts "***ERROR: specify chart type:\n   #{$0} 1d1m"
+  $stderr.puts "Valid charts are:"
+  charts.each { |c| puts "  #{c[:chart]}" }
+  Kernel.exit 1
+else
+  options.chart     = chart[:chart]
+  options.web_url   = chart[:web_url]
+  options.chart_url = chart[:chart_url]
 end
 
 # Fetch the chart
